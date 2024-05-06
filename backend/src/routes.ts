@@ -2,6 +2,6 @@ import { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } f
 
 export const routes = async (fastify: FastifyInstance, options: FastifyPluginOptions) => {
     fastify.get("/teste", async (request: FastifyRequest, reply: FastifyReply) => {
-        return { ok: true }
+        return { msg: "Hello World" }
     })
 }
