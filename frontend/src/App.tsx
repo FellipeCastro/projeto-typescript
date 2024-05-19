@@ -48,7 +48,7 @@ export default function App() {
                 <p><span className="font-medium">E-mail:</span> {customer.email}</p>
                 <p><span className="font-medium">Status:</span> {customer.status ? "Ativo" : "Inativo"}</p>
 
-                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2">
+                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2 hover:bg-red-400">
                   <FiTrash size={18} color="#fff" />
                 </button>
               </article>
