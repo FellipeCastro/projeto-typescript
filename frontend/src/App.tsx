@@ -37,7 +37,25 @@ export default function App() {
       email: emailRef.current?.value
     })
 
-    setCustomers(alCustomers => [...alCustomers, response.data])
+    setCustomers(allCustomers => [...allCustomers, response.data])
+
+    nameRef.current.value = ""
+    emailRef.current.value = ""
+  }
+
+  const handleDelete = async (id: string) => {
+    try {
+      await api.delete("/customer", {
+        params: {
+          id: id
+        }
+      })
+
+      const allCustomers = customers.filter((customer) => customer.id !== id)
+      setCustomers(allCustomers)
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -64,7 +82,7 @@ export default function App() {
                 <p><span className="font-medium">E-mail:</span> {customer.email}</p>
                 <p><span className="font-medium">Status:</span> {customer.status ? "Ativo" : "Inativo"}</p>
 
-                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2 hover:bg-red-400">
+                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2 hover:bg-red-400" onClick={() => handleDelete(customer.id)}>
                   <FiTrash size={18} color="#fff" />
                 </button>
               </article>
