@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, FormEvent } from "react"
 
 import { api } from "./services/api"
 
@@ -15,26 +15,42 @@ interface customerProps{
 export default function App() {
   const [customers, setCustomers] = useState<customerProps[]>([])
 
+  const nameRef = useRef<HTMLInputElement | null>(null)
+  const emailRef = useRef<HTMLInputElement | null>(null)
+
   useEffect(() => {
     loadCustomer()
   }, [])
 
-  async function loadCustomer() {
+  const loadCustomer = async () => {
     const response = await api.get("/customers")
     setCustomers(response.data)
   }
 
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    if (!nameRef.current?.value || !emailRef.current?.value) return 
+
+    const response = await api.post("/customer", {
+      name: nameRef.current?.value,
+      email: emailRef.current?.value
+    })
+
+    setCustomers(alCustomers => [...alCustomers, response.data])
+  }
+
   return (
-    <div className="w-full min-h-screen bg-gray-900 flex justify-center px-4">
+    <div className="w-full min-h-screen bg-gray-900 flex justify-center px-6">
       <main className="my-10 w-full md:max-w-2xl">
         <h1 className="text-4xl font-medium text-white">Clientes</h1>
 
-        <form className="flex flex-col my-6" autoComplete="off">
+        <form className="flex flex-col my-6" autoComplete="off" onSubmit={handleSubmit}>
           <label htmlFor="name" className="font-medium text-white">Nome:</label>
-          <input type="text" name="name" id="name" placeholder="Digite seu nome completo" className="w-full mb-5 p-2 rounded" />
+          <input type="text" name="name" id="name" placeholder="Digite seu nome completo" className="w-full mb-5 p-2 rounded" ref={nameRef} />
 
           <label htmlFor="email" className="font-medium text-white">E-mail:</label>
-          <input type="email" name="email" id="email" placeholder="Digite seu e-mail" className="w-full mb-5 p-2 rounded" />
+          <input type="email" name="email" id="email" placeholder="Digite seu e-mail" className="w-full mb-5 p-2 rounded" ref={emailRef} />
 
           <input type="submit" value="Cadastrar" className="cursor-pointer w-full p-2 bg-green-500 rounded font-medium hover:bg-green-400" />
         </form>
