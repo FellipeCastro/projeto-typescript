@@ -25,7 +25,7 @@ class EditCustomerService{
         const updateCustomer = await prismaClient.customer.update({
             where: { id: findCustomer.id },
             data: {
-                name: name ||findCustomer.name,
+                name: name || findCustomer.name,
                 email: email || findCustomer.email,
             }
         })
