@@ -5,14 +5,14 @@ import { DeleteCustomerController } from "./controllers/DeleteCustomerController
 import { EditCustomerController } from "./controllers/EditCustomerController"
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
-    // Read
-    fastify.get("/customers", async (request: FastifyRequest, reply: FastifyReply) => {
-        return new ListCustomersController().handle(request, reply)
-    })
-
     // Create
     fastify.post("/customer", async (request: FastifyRequest, reply: FastifyReply) => {
         return new CreateCustomerController().handle(request, reply)
+    })
+
+    // Read
+    fastify.get("/customers", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListCustomersController().handle(request, reply)
     })
 
     // Update

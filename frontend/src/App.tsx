@@ -98,11 +98,11 @@ export default function App() {
           </button>
         </form>
 
-        <section className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
 
           {customers.map((customer) => {
             return (
-              <article key={customer.id} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
+              <div key={customer.id} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
                 <p><span className="font-medium">Nome:</span> {customer.name}</p>
                 <p><span className="font-medium">E-mail:</span> {customer.email}</p>
                 <p><span className="font-medium">Status:</span> {customer.status ? "Ativo" : "Inativo"}</p>
@@ -113,11 +113,11 @@ export default function App() {
                 <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2 hover:bg-red-400" onClick={() => handleDelete(customer.id)}>
                   <FiTrash size={18} color="#fff" />
                 </button>
-              </article>
+              </div>
             )
           })}
 
-        </section>
+        </div>
       </main>
     </div>
   )
