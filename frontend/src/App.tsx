@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, FormEvent } from "react"
-
 import { api } from "./services/api"
-
 import { FiTrash, FiEdit } from "react-icons/fi"
+import { PiSpinnerGapLight } from "react-icons/pi"
 
 interface customerProps{
   id: string
@@ -19,17 +18,24 @@ interface CustomerResponse{
 export default function App() {
   const [customers, setCustomers] = useState<customerProps[]>([])
   const [customerId, setCustomerId] = useState("")
+  const [loading, setLoading] = useState(true)
 
   const nameRef = useRef<HTMLInputElement | null>(null)
   const emailRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    loadCustomer()
+    // Função para o loading aparecer por 5s
+    setTimeout(() => {
+      loadCustomer()
+    }, 500)
+
   }, [])
 
   const loadCustomer = async () => {
+    setLoading(true)
     const response = await api.get("/customers")
     setCustomers(response.data)
+    setLoading(false)
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -100,23 +106,28 @@ export default function App() {
 
         <div className="flex flex-col gap-4">
 
-          {customers.map((customer) => {
-            return (
-              <div key={customer.id} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
-                <p><span className="font-medium">Nome:</span> {customer.name}</p>
-                <p><span className="font-medium">E-mail:</span> {customer.email}</p>
-                <p><span className="font-medium">Status:</span> {customer.status ? "Ativo" : "Inativo"}</p>
-
-                <button className="bg-blue-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-6 -top-2 hover:bg-blue-400" onClick={() => handleEdit(customer.id)}>
-                  <FiEdit size={18} color="#fff" />
-                </button>
-                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2 hover:bg-red-400" onClick={() => handleDelete(customer.id)}>
-                  <FiTrash size={18} color="#fff" />
-                </button>
-              </div>
-            )
-          })}
-
+          {loading ? (
+            <div className="w-full flex justify-center mt-6">
+              <PiSpinnerGapLight size={60} color="#fff" className="animate-spin" />
+            </div>            
+          ) : (
+            customers.map((customer) => {
+              return (
+                <div key={customer.id} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
+                  <p><span className="font-medium">Nome:</span> {customer.name}</p>
+                  <p><span className="font-medium">E-mail:</span> {customer.email}</p>
+                  <p><span className="font-medium">Status:</span> {customer.status ? "Ativo" : "Inativo"}</p>
+  
+                  <button className="bg-blue-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-6 -top-2 hover:bg-blue-400" onClick={() => handleEdit(customer.id)}>
+                    <FiEdit size={18} color="#fff" />
+                  </button>
+                  <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2 hover:bg-red-400" onClick={() => handleDelete(customer.id)}>
+                    <FiTrash size={18} color="#fff" />
+                  </button>
+                </div>
+              )
+            })            
+          )}
         </div>
       </main>
     </div>
