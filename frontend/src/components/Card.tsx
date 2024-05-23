@@ -16,10 +16,11 @@ const Card: React.FC<CardProps> = ({ customer, handleEdit, handleDelete }) => {
             <p><span className="font-medium">Status:</span> {customer.status ? "Ativo" : "Inativo"}</p>
 
             <button className="bg-blue-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-6 -top-2 hover:bg-blue-400" onClick={() => handleEdit(customer.id)}>
-            <FiEdit size={18} color="#fff" />
+                <FiEdit size={18} color="#fff" />
             </button>
+            
             <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute -right-2 -top-2 hover:bg-red-400" onClick={() => handleDelete(customer.id)}>
-            <FiTrash size={18} color="#fff" />
+                <FiTrash size={18} color="#fff" />
             </button>
         </div>        
     )
