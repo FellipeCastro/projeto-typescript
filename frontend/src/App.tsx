@@ -24,15 +24,14 @@ export default function App() {
   const emailRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    // Função para o loading aparecer por 5s
+    // Função para o loading aparecer por 0.5s
     setTimeout(() => {
-      loadCustomer()
+      loadCustomers()
     }, 500)
 
   }, [])
 
-  const loadCustomer = async () => {
-    setLoading(true)
+  const loadCustomers = async () => {
     const response = await api.get("/customers")
     setCustomers(response.data)
     setLoading(false)
